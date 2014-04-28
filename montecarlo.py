@@ -14,7 +14,7 @@ basal = 0.01
 high = 0.99
 dx = 1/float(N-1)
 I=0.680625 
-invtemp0=float(1000) 
+invtemp0=float(10)
 maxsteps=100000
 
 c=np.zeros((N,N))
@@ -99,6 +99,7 @@ def heating(lastgoodone):
 		invtemp=invtemp0/100
 	else:
 		invtemp=invtemp0/100
+	print "T: {0:f}".format(invtemp)
 	return invtemp
 #####################ramped stepsize######(input number of step - does something like that make sense?!?!?!)
 def step(i): 
@@ -132,15 +133,15 @@ error=fehler(a,b)
 ##################################################################################	
 #####################################routine######################################	
 ##################################################################################	
-for i in range(0,maxsteps):
+for i in xrange(0,maxsteps):
 	print error
-	if memory==0:
+	#if memory==0:
 	####draw random element
-		p=np.random.choice(n)
-		q=np.random.choice(n)
+	p=np.random.choice(n)
+	q=np.random.choice(n)
 	####decide which morphogen mu and which direction di
-		mu=np.random.choice(2)
-		di=np.random.choice(2)
+	mu=np.random.choice(2)
+	di=np.random.choice(2)
 	###make small step
 	if mu==0:
 		test=np.copy(a)
@@ -175,6 +176,7 @@ for i in range(0,maxsteps):
 		lastgoodone=lastgoodone+1
 		memory=0
 		barriere=math.exp(delta*heating(lastgoodone))
+		print "pa: {0:f}".format(barriere)
 		u=np.random.random_sample()
 		if u<barriere: 		##still allow sometimes
 			badstep=badstep+1
@@ -200,8 +202,8 @@ for i in range(0,maxsteps):
 print goodstep
 print badstep
 print nostep
-plot(a0,b0)
-plot(a,b)
+#plot(a0,b0)
+#plot(a,b)
 
 
 
