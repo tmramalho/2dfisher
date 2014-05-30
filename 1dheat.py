@@ -6,8 +6,9 @@ import random
 ################################################################################
 #################input
 N =10
-maxiter=10
-size=0.001
+maxiter=1000000
+size=0.00001
+dx = 1
 ################################################################################
 ################################################################################
 d=pow((1/float(N-1)),-2)##inverse of dx^2
@@ -35,9 +36,9 @@ m1u=np.ones((N-1))*d
 m1u[0]=0
 m1d=np.ones((N-1))*d
 m1d[-1]=0
-mat0=np.diag(m0)
-mat1u=np.diag(m1u,k=1)
-mat1d=np.diag(m1d,k=-1)
+mat0=np.diag(m0)/dx
+mat1u=np.diag(m1u,k=1)/dx
+mat1d=np.diag(m1d,k=-1)/dx
 mat=mat0+mat1u+mat1d #### this is the D matrix for fixed ends
 matt=np.zeros((N,N))
 matt=mat.transpose()
@@ -47,14 +48,17 @@ der=np.dot(matt,mat)
 ################################################################################
 ##############################initialize
 grad=np.zeros((N))
-f=np.zeros((N))
+f=np.power(np.linspace(0,2,N),2)
 i=0
 f=f0
+print f
 ################################################################################
 ###############################routine
 for i in xrange(0,maxiter):
-	print f
+	#print np.sum(np.power(np.dot(mat,f),2))
 	grad=np.dot(der,f)
-	f=f+2*grad*size
-	
+	f=f-2*grad*size
+
+print np.sum(np.power(np.dot(mat,f),2))
+print f
 
